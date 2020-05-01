@@ -5,8 +5,8 @@
 <meta charset="utf-8">
 <style>
 .centered {
-position: fixed;
-top: 30%;
+position: absolute;
+top: 20%;
 left: 50%;
 width: 600px;
 height:200px;
@@ -18,6 +18,8 @@ margin: -100px 0 0 -300px;
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
         integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
         crossorigin="anonymous"></script>
+            <script src="generator.js"></script>
+
 </head>
 <body id="body" class="centered">  
 <div class="input-group">
@@ -28,8 +30,8 @@ margin: -100px 0 0 -300px;
       </div>  
       <tr>
     <div  class="d-flex justify-content-center">
-        <button type="button" class="btn btn-success m-3" onclick="start()" value="find">check</button>  
-        <div class="generating" id="gener_div"></div>
+        <button type="button" class="btn btn-success m-3" onclick="start()" value="find">check</button> 
+              <button class="btn btn-success m-3" onclick="generate()">СГЕНЕРИРОВАТЬ</button> 
     </div>
     <div class="d-flex justify-content-center">
              <select class="custom-select" id="chooseIfSDNF">
@@ -38,6 +40,7 @@ margin: -100px 0 0 -300px;
               </select>
         </div> 
         <hr>
+        <span id="answer" style="margin: 0; size: 10pt"></span>
         <span id="choiceAnswer" style="margin: 0; size: 10pt"></span>
         <hr>
         <script src = "script.js"></script>

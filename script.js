@@ -291,6 +291,7 @@ function start() {
     var input = document.getElementById("formula").value;
     let choice = document.getElementById('chooseIfSDNF').value;
     let choiceAnswer = document.getElementById('choiceAnswer');
+    let answer = document.getElementById('answer');
     subFormulas = new Array();
     variables = new Array();
     table = new Array();
@@ -300,32 +301,55 @@ function start() {
         return;
     }
 
-    formula = input;
+    if (checkWithRegularExpressionFormula(input)) {
 
-    findSubformulas();
-    createTable();
-    mainCalculations();
+        formula = input;
+
+        findSubformulas();
+        createTable();
+        mainCalculations();
 
 
-    var message;
-    if (isTautology()) {
-        message = "Формула является общезначимой."
-        if (choice == 0) {
-            choiceAnswer.innerHTML = "Вы не правы";
-        } else choiceAnswer.innerHTML = "Вы правы";
+        var message;
+        if (isTautology()) {
+            message = "Формула является общезначимой."
+            if (choice == 0) {
+                choiceAnswer.innerHTML = "Вы не правы";
+            } else choiceAnswer.innerHTML = "Вы правы";
+        } else {
+            message = "Не общезначимая формула."
+            if (choice == 1) {
+                choiceAnswer.innerHTML = "Вы не правы";
+            } else choiceAnswer.innerHTML = "Вы правы";
+        }
+        
+        answer.innerHTML = message;
+
+        renderTable(input, table, subFormulas);
     } else {
-        message = "Не товтология."
-        if (choice == 1) {
-            choiceAnswer.innerHTML = "Вы не правы";
-        } else choiceAnswer.innerHTML = "Вы правы";
+        answer.innerHTML = "Не формула";
     }
-    var mainDiv = document.getElementById("gener_div");
-    mainDiv.innerHTML = "";
-    var answer = document.createElement("p");
-    var answerContent = document.createTextNode("Ответ: " + message);
-    answer.appendChild(answerContent);
-    mainDiv.appendChild(answer);
 
-    renderTable(input, table, subFormulas);
+}
 
+function checkWithRegularExpressionFormula(formula) {
+    const FORMULA_REGEXP = new RegExp('([(]([A-Z]|[0-1])((->)|(&)|(\\|)|(~))([A-Z]|[0-1])[)])|([(][!]([A-Z]|[0-1])[)])|([A-Z])|([0-1])','g');
+    let form = formula;
+
+    if (form.length == 1 && form.match(/[A-Z]|[0-1]/)) {
+        return true;
+    } else {
+        while (true) {
+            let initLength = form.length;
+            form = form.replace(FORMULA_REGEXP, '1')
+            if (form.length === initLength) {
+                break;
+            }
+        }
+        if ((form.length === 1) && (form.match(/1/))) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }
