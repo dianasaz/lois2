@@ -277,14 +277,19 @@ function renderTable(input, table, subFormulas) {
     document.getElementById("table").innerHTML = innerHTML;
 }
 
-function isTautology() {
+function isNeitral() {
+    let isFalse = false;
+    let isTrue = false;
     var lastCol = table.length - 1;
     for (var index = 0; index < table[lastCol][1].length; index++) {
         if (table[lastCol][1][index] == 0) {
-            return false;
+            isFalse = true;
+        }
+        if (table[lastCol][1][index] == 1) {
+            isTrue = true;
         }
     }
-    return true;
+    return (isTrue && isFalse);
 }
 
 function start() {
@@ -301,6 +306,8 @@ function start() {
         return;
     }
 
+    var message;
+
     if (checkWithRegularExpressionFormula(input)) {
 
         formula = input;
@@ -308,16 +315,14 @@ function start() {
         findSubformulas();
         createTable();
         mainCalculations();
-
-
-        var message;
-        if (isTautology()) {
-            message = "Формула является общезначимой."
+            
+        if (isNeitral()) {
+            message = "Формула является нейтральной."
             if (choice == 0) {
                 choiceAnswer.innerHTML = "Вы не правы";
             } else choiceAnswer.innerHTML = "Вы правы";
         } else {
-            message = "Не общезначимая формула."
+            message = "Не нейтральная формула."
             if (choice == 1) {
                 choiceAnswer.innerHTML = "Вы не правы";
             } else choiceAnswer.innerHTML = "Вы правы";
@@ -326,6 +331,7 @@ function start() {
         answer.innerHTML = message;
 
         renderTable(input, table, subFormulas);
+    
     } else {
         answer.innerHTML = "Не формула";
     }
